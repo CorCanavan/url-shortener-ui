@@ -7,7 +7,7 @@ describe('URL Shortener User Flows', () => {
     cy.visit('http://localhost:3000/')
   })
 
-  it('should be able to visit page and render title and existing URL', () => {
+  it('should be able to visit page and render title and existing shortened URLs', () => {
     cy.get('header').contains('h1', 'URL Shortener')
     cy.get('section').find('.url').should('have.length', 1)
 
@@ -31,7 +31,6 @@ describe('URL Shortener User Flows', () => {
     cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
       statusCode: 201,
       body: {
-        id: 2,
         title: 'Dog image',
         long_url: 'https://www.pexels.com/photo/closeup-photo-of-brown-and-black-dog-face-406014/',
         short_url: 'http://localhost:3001/useshorturl/2'
