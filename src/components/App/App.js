@@ -5,8 +5,10 @@ import UrlContainer from '../UrlContainer/UrlContainer';
 import UrlForm from '../UrlForm/UrlForm';
 
 export class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    // console.log(props, "props")
+    super();
+    // console.log("this.props", this.props)
     this.state = {
       urls: []
     }
@@ -16,6 +18,10 @@ export class App extends Component {
     getUrls()
     .then(data => this.setState({urls: data.urls }))
     .catch(error => console.log(error.message))
+  }
+
+  addNewUrl = (newURL) => {
+    
   }
 
   render() {
