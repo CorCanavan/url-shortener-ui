@@ -7,7 +7,7 @@ describe('URL Shortener User Flows', () => {
     cy.visit('http://localhost:3000/')
   })
 
-  it('should be able to visit page and render title and existing URLs', () => {
+  it('should be able to visit page and render title and existing URL', () => {
     cy.get('header').contains('h1', 'URL Shortener')
     cy.get('section').find('.url').should('have.length', 1)
 
@@ -22,8 +22,26 @@ describe('URL Shortener User Flows', () => {
     cy.get('input[name="urlToShorten"]').should('be.visible')
   })
 
-  it('should update form to display user input when user types', () => {
+  it('should update form to display information when user types into input fields', () => {
     cy.get('input[name="title"]').type('Dog image').should('have.value', 'Dog image')
     cy.get('input[name="urlToShorten"]').type('https://www.pexels.com/photo/closeup-photo-of-brown-and-black-dog-face-406014/').should('have.value', 'https://www.pexels.com/photo/closeup-photo-of-brown-and-black-dog-face-406014/')
+  })
+
+  it('should display new shortened URL to page once user fills out form inputs and clicks button to submit', () => {
+    cy.intercept('POST', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 201,
+      body: {
+        id: 2,
+        title: 'Dog image',
+        long_url: 'https://www.pexels.com/photo/closeup-photo-of-brown-and-black-dog-face-406014/',
+        short_url: 'http://localhost:3001/useshorturl/2'
+      }
+    })
+    cy.get('input[name="title"]').type('Dog image')
+    cy.get('input[name="urlToShorten"]').type('https://www.pexels.com/photo/closeup-photo-of-brown-and-black-dog-face-406014/')
+    cy.contains('Shorten Please!').click()
+
+    cy.get('section').find('.url').should('have.length', 2)
+    cy.get('.url').last().should('contain', 'http://localhost:3001/useshorturl/2')
   })
 })
