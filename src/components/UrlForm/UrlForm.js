@@ -20,7 +20,7 @@ class UrlForm extends Component {
     const newURL = {
       id: Date.now(),
       title: this.state.title,
-      urlToShorten: this.state.urlToShorten
+      long_url: this.state.urlToShorten
     }
     this.props.addNewUrl(newURL)
     this.clearInputs();
