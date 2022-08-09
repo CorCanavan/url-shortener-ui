@@ -6,9 +6,7 @@ import UrlForm from '../UrlForm/UrlForm';
 
 export class App extends Component {
   constructor() {
-    // console.log(props, "props")
     super();
-    // console.log("this.props", this.props)
     this.state = {
       urls: []
     }
