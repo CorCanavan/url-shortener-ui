@@ -43,4 +43,20 @@ describe('URL Shortener User Flows', () => {
     cy.get('section').find('.url').should('have.length', 2)
     cy.get('.url').last().should('contain', 'http://localhost:3001/useshorturl/2')
   })
+
+  it('should display an error message if data cannot load due to 400 error', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 400
+    })
+    cy.visit('http://localhost:3000/')
+    cy.get('p').should('contain', 'Something went wrong! Please try again later.')
+  })
+
+  it('should display an error message if data cannot load due to 500 error', () => {
+    cy.intercept('GET', 'http://localhost:3001/api/v1/urls', {
+      statusCode: 500
+    })
+    cy.visit('http://localhost:3000/')
+    cy.get('p').should('contain', 'Something went wrong! Please try again later.')
+  })
 })
