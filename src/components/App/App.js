@@ -8,20 +8,21 @@ export class App extends Component {
   constructor() {
     super();
     this.state = {
-      urls: []
+      urls: [],
+      error: ''
     }
   }
 
   componentDidMount() {
     getUrls()
     .then(data => this.setState({urls: data.urls }))
-    .catch(error => console.log(error.message))
+    .catch(error => this.setState({ error: 'Something went wrong! Please try again later.'}))
   }
 
  addNewUrl = (newURL) => {
     addUrl(newURL)
     .then(data => this.setState({urls: [...this.state.urls, data ]}))
-    .catch(error => console.log(error.message))
+    .catch(error => this.setState({ error: 'Something went wrong! Please try again later.'}))
   }
 
   render() {
@@ -31,6 +32,7 @@ export class App extends Component {
           <h1>URL Shortener</h1>
           <UrlForm addNewUrl={this.addNewUrl} />
         </header>
+        {this.state.error && <p>{this.state.error}</p>}
         <UrlContainer urls={this.state.urls}/>
       </main>
     );
